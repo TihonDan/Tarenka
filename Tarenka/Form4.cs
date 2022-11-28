@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Form4 : Form
+    public partial class Form4 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -33,6 +35,11 @@ namespace Tarenka
         public Form4()
         {
             InitializeComponent();
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
@@ -138,11 +145,6 @@ namespace Tarenka
             connection.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             selectGrid = dataGridView1.SelectedRows[0].Cells["id_faculty"].Value.ToString();
@@ -151,25 +153,39 @@ namespace Tarenka
             selectGrid3 = dataGridView1.SelectedRows[0].Cells["id_gr"].Value.ToString();
         }
 
-        private void button2_Click(object sender, EventArgs e)//add
-        {
-            Add();
-        }
-
-        private void button5_Click(object sender, EventArgs e)//Refresh
+        private void materialButton1_Click(object sender, EventArgs e)
         {
             DateNew();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void materialButton2_Click(object sender, EventArgs e)
         {
-            deleteRecord(Convert.ToInt32(selectGrid2));
+            Add();
         }
 
-        private void button4_Click(object sender, EventArgs e)//Form update
+        private void materialButton3_Click(object sender, EventArgs e)
         {
-            Update_gruppy update_gruppy = new Update_gruppy(Convert.ToInt32(selectGrid), selectGrid1, selectGrid3, Convert.ToInt32(selectGrid2));
-            update_gruppy.ShowDialog();
+            if (selectGrid != null)
+            {
+                deleteRecord(Convert.ToInt32(selectGrid2));
+            }
+            else
+            {
+                MessageBox.Show("Выберите элемент");
+            }
+        }
+
+        private void materialButton4_Click(object sender, EventArgs e)
+        {
+            if (selectGrid != null)
+            {
+                Update_gruppy update_gruppy = new Update_gruppy(Convert.ToInt32(selectGrid), selectGrid1, selectGrid3, Convert.ToInt32(selectGrid2));
+                update_gruppy.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Выберите элемент");
+            }
         }
     }
 }

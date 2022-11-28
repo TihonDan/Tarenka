@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Form5 : Form
+    public partial class Form5 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -42,13 +44,19 @@ namespace Tarenka
         {
             InitializeComponent();
 
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
+
             Date();
 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox5.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialComboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialComboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialComboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialComboBox5.DropDownStyle = ComboBoxStyle.DropDownList;
 
         }
 
@@ -66,11 +74,11 @@ namespace Tarenka
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 id[i] = Convert.ToString(dt.Rows[i]["concat"]);
-                comboBox1.Items.Add(id[i]);
+                materialComboBox5.Items.Add(id[i]);
             }
 
             number_gr();
-            sokr_name();
+            //sokr_name();
 
             connection.Close();
         }
@@ -109,64 +117,25 @@ namespace Tarenka
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 id[i] = Convert.ToString(dt.Rows[i]["nomer_gr"]);
-                comboBox2.Items.Add(id[i]);
+                materialComboBox1.Items.Add(id[i]);
             }
 
         }
 
-        void sokr_name()
-        {
-            string sql = $"select disc from rasp";
-            NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, connection);
-            ds.Reset();
-            da.Fill(ds);
-            dt = ds.Tables[0];
+        //void sokr_name()
+        //{
+        //    string sql = $"select disc from rasp";
+        //    NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, connection);
+        //    ds.Reset();
+        //    da.Fill(ds);
+        //    dt = ds.Tables[0];
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                id[i] = Convert.ToString(dt.Rows[i]["disc"]);
-                comboBox3.Items.Add(id[i]);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            prepod = comboBox1.Items[comboBox1.SelectedIndex].ToString();
-            result = prepod.Substring(prepod.Length - 6);
-            resInt = Convert.ToInt32(result);
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _number_gr = comboBox2.Items[comboBox2.SelectedIndex].ToString();
-        }
-
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            day = comboBox4.Items[comboBox4.SelectedIndex].ToString();
-        }
-
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            aud = comboBox5.Items[comboBox5.SelectedIndex].ToString();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            id_gruppy(comboBox2.Text);
-
-            string para = textBox3.Text;
-
-            insertRecord(_number_gr, day, para, comboBox3.Text, resInt, aud, Convert.ToInt32(id_gr));
-
-        }
-
-
+        //    for (int i = 0; i < dt.Rows.Count; i++)
+        //    {
+        //        id[i] = Convert.ToString(dt.Rows[i]["disc"]);
+        //        materialComboBox4.Items.Add(id[i]);
+        //    }
+        //}
 
         public void insertRecord(String nomer_gr, String dayn, String para, String disc, int id_pr, String aud, int id_gr)
         {
@@ -224,7 +193,44 @@ namespace Tarenka
             this.Close();
         }
 
-        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            id_gruppy(materialComboBox2.Text);
+
+            insertRecord(materialComboBox1.Text, materialComboBox2.Text, materialTextBox21.Text, materialComboBox4.Text, resInt, materialComboBox3.Text, Convert.ToInt32(id_gr));
+        }
+        //(String nomer_gr, String dayn, String para, String disc, int id_pr, String aud, int id_gr)
+
+        //void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    prepod = comboBox1.Items[comboBox1.SelectedIndex].ToString();
+        //    result = prepod.Substring(prepod.Length - 6);
+        //    resInt = Convert.ToInt32(result);
+        //}
+
+        //private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    _number_gr = comboBox2.Items[comboBox2.SelectedIndex].ToString();
+        //}
+
+        //private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    day = comboBox4.Items[comboBox4.SelectedIndex].ToString();
+        //}
+
+        //private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    aud = comboBox5.Items[comboBox5.SelectedIndex].ToString();
+        //}
+
+        private void materialComboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            prepod = materialComboBox5.Items[materialComboBox5.SelectedIndex].ToString();
+            result = prepod.Substring(prepod.Length - 6);
+            resInt = Convert.ToInt32(result);            
+        }
+
+        private void materialTextBox21_KeyPress(object sender, KeyPressEventArgs e)
         {
             //Только цифры
             if (Char.IsDigit(e.KeyChar) == true) return;
@@ -233,7 +239,7 @@ namespace Tarenka
 
             e.Handled = true;
 
-            textBox3.Clear();
+            materialTextBox21.Clear();
         }
     }
 

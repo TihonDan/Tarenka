@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using Npgsql;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Form2 : Form
+    public partial class Form2 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -36,10 +38,17 @@ namespace Tarenka
         public Form2()
         {
             InitializeComponent();
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             DateNew();
+
+            dataGridView1.AutoResizeColumns();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void button1_Click(object sender, EventArgs e)//Close
@@ -51,11 +60,6 @@ namespace Tarenka
         {
             Form5 form5 = new Form5();
             form5.ShowDialog();
-        }
-
-        private void button3_Click(object sender, EventArgs e)//refresh
-        {
-            DateNew();
         }
 
         public void DateNew()
@@ -84,11 +88,6 @@ namespace Tarenka
             dataGridView1.Columns[8].Visible = false;
 
             connection.Close();
-        }
-
-        private void button4_Click(object sender, EventArgs e)//delete
-        {
-            deleteRecord(Convert.ToInt32(selectGrid6));
         }
         public void deleteRecord(int id_rs) 
         {
@@ -158,7 +157,17 @@ namespace Tarenka
 
         }
 
-        private void button5_Click(object sender, EventArgs e)//update
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            DateNew();
+        }
+
+        private void materialButton3_Click(object sender, EventArgs e)
+        {
+            deleteRecord(Convert.ToInt32(selectGrid6));
+        }
+
+        private void materialButton4_Click(object sender, EventArgs e)
         {
             if (selectGrid != null)
             {
@@ -171,5 +180,10 @@ namespace Tarenka
             }
         }
 
+        private void materialButton2_Click(object sender, EventArgs e)
+        {
+            Form5 form5 = new Form5();
+            form5.ShowDialog();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Update_gruppy : Form
+    public partial class Update_gruppy : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -27,6 +29,12 @@ namespace Tarenka
         public Update_gruppy(int id_fac, String kurs, String num_gr, int id_gr)
         {
             InitializeComponent();
+
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
             all_faculty();
             name_fac_id(id_fac);
 
@@ -34,12 +42,6 @@ namespace Tarenka
 
             textBox1.Text = kurs;
             textBox2.Text = num_gr;
-        }
-
-        private void button2_Click(object sender, EventArgs e)//Update
-        {
-            id_faculty_name(comboBox1.Text);
-            Update(_id_fac, textBox1.Text, textBox2.Text, _id_gr);
         }
 
         void Update(int id_faculty, String kurs, String nomer_gr, int id_gr)
@@ -134,11 +136,6 @@ namespace Tarenka
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar) == false) return;
@@ -170,6 +167,17 @@ namespace Tarenka
             e.Handled = true;
 
             textBox2.Clear();
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            id_faculty_name(comboBox1.Text);
+            Update(_id_fac, textBox1.Text, textBox2.Text, _id_gr);
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

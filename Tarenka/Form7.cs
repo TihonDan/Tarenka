@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Tarenka
 {
-    public partial class Form7 : Form
+    public partial class Form7 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -29,24 +31,14 @@ namespace Tarenka
         public Form7()
         {
             InitializeComponent();
+
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             name_faculty();
-        }
-
-        private void button1_Click(object sender, EventArgs e)//Close
-        {
-            this.Close();
-        }
-
-        private void button2_Click(object sender, EventArgs e)//Add
-        {
-            get_id_faculty(comboBox1.Text);
-            string surname = textBox1.Text;
-            string name = textBox2.Text;
-            string middle_name = textBox3.Text;
-            string age = textBox6.Text;
-
-            insertRecord(surname, name, middle_name, id_faculty, Convert.ToInt32(age));
         }
 
         public void insertRecord(String surname, String name, String middle_name, int id_faculty,  int age)
@@ -176,6 +168,17 @@ namespace Tarenka
             e.Handled = true;
 
             textBox3.Clear();
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            get_id_faculty(comboBox1.Text);
+            string surname = textBox1.Text;
+            string name = textBox2.Text;
+            string middle_name = textBox3.Text;
+            string age = textBox6.Text;
+
+            insertRecord(surname, name, middle_name, id_faculty, Convert.ToInt32(age));
         }
     }
 }

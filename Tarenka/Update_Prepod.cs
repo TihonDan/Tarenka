@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +15,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Update_Prepod : Form
+    public partial class Update_Prepod : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -30,6 +32,12 @@ namespace Tarenka
         public Update_Prepod(String fam, String name, String last_name, int faculty, String age, int id_pr)
         {
             InitializeComponent();
+
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
             selectNameFac(faculty);
             textBox5.Text = fam;
             textBox4.Text = name; 
@@ -144,12 +152,6 @@ namespace Tarenka
             this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            selectComboId(comboBox1.Text);
-            updateDate(textBox5.Text, textBox4.Text, textBox3.Text, id_fac, Convert.ToInt32(textBox2.Text), _id_pr);
-        }
-
         private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar) == false) return;
@@ -203,6 +205,12 @@ namespace Tarenka
             e.Handled = true;
 
             comboBox1 = null;
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            selectComboId(comboBox1.Text);
+            updateDate(textBox5.Text, textBox4.Text, textBox3.Text, id_fac, Convert.ToInt32(textBox2.Text), _id_pr);
         }
     }
 }

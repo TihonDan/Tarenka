@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Add_Gruppy : Form
+    public partial class Add_Gruppy : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -27,6 +29,12 @@ namespace Tarenka
         public Add_Gruppy()
         {
             InitializeComponent();
+
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
             name_faculty();
         }
 
@@ -106,12 +114,6 @@ namespace Tarenka
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            id_name_faculty(comboBox1.Text);
-            insertRecord(id_fac, textBox1.Text, textBox2.Text);
-        }
-
         private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar) == false) return;
@@ -143,6 +145,12 @@ namespace Tarenka
             e.Handled = true;
 
             textBox2.Clear();
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            id_name_faculty(comboBox1.Text);
+            insertRecord(id_fac, textBox1.Text, textBox2.Text);
         }
     }
 }

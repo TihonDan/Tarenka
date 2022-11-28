@@ -1,4 +1,6 @@
-﻿using Npgsql;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Tarenka
 {
-    public partial class Form6 : Form
+    public partial class Form6 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -36,6 +38,12 @@ namespace Tarenka
         {
             InitializeComponent();
 
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
+
             comboBox1.Text = numberGroup;
             comboBox2.Text = day; 
             textBox3.Text = para;
@@ -54,12 +62,6 @@ namespace Tarenka
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            get_id_gr();
-            updateDate(comboBox1.Text, comboBox2.Text, textBox3.Text, comboBox3.Text, _id_pr, comboBox4.Text, _id_rs, last_id_gr);
         }
 
         void selectPrepod()
@@ -272,6 +274,12 @@ namespace Tarenka
             e.Handled = true;
 
             comboBox4 = null;
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            get_id_gr();
+            updateDate(comboBox1.Text, comboBox2.Text, textBox3.Text, comboBox3.Text, _id_pr, comboBox4.Text, _id_rs, last_id_gr);
         }
     }
 }

@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
+using MaterialSkin.Controls;
+using MaterialSkin;
 
 namespace Tarenka
 {
-    public partial class Form3 : Form
+    public partial class Form3 : MaterialForm
     {
         static string conncetionString = "Host=localhost;Port=5432;Database=Homework;Username=postgres;Password=postgres";
 
@@ -37,9 +39,17 @@ namespace Tarenka
         {
             InitializeComponent();
 
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             DateNew();
+
+            //dataGridView1.AutoResizeColumns();
+            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         public void DateNew()
@@ -132,27 +142,6 @@ namespace Tarenka
             connection.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)//Close
-        {
-            this.Close();
-        }
-
-        private void button3_Click(object sender, EventArgs e)//Refresh
-        {
-            DateNew();
-        }
-
-        private void button2_Click(object sender, EventArgs e)//Add
-        {
-            Form7 form7 = new Form7();
-            form7.ShowDialog();
-        }
-
-        private void button4_Click(object sender, EventArgs e)//delete
-        {
-            deleteRecord(Convert.ToInt32(selectGrid5));
-        }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             selectGrid = dataGridView1.SelectedRows[0].Cells["Фамилия"].Value.ToString();
@@ -182,6 +171,35 @@ namespace Tarenka
                 update_form.ShowDialog();
             }
             else 
+            {
+                MessageBox.Show("Выберите элемент");
+            }
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            DateNew();
+        }
+
+        private void materialButton2_Click(object sender, EventArgs e)
+        {
+            Form7 form7 = new Form7();
+            form7.ShowDialog();
+        }
+
+        private void materialButton3_Click(object sender, EventArgs e)
+        {
+            deleteRecord(Convert.ToInt32(selectGrid5));
+        }
+
+        private void materialButton4_Click(object sender, EventArgs e)
+        {
+            if (selectGrid != null)
+            {
+                Update_Prepod update_form = new Update_Prepod(selectGrid, selectGrid1, selectGrid2, Convert.ToInt32(selectGrid3), selectGrid4, Convert.ToInt32(selectGrid5));
+                update_form.ShowDialog();
+            }
+            else
             {
                 MessageBox.Show("Выберите элемент");
             }
